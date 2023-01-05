@@ -173,7 +173,7 @@ try:
       for fut, msg in futures.items():
         if not fut.done():
           duration = nowTime-msg[TUPLE_STARTTIME]
-          record = orjson.loads(msg[TUPLE_MSG]['Body'])
+          record = orjson.loads(msg[TUPLE_MSG])
           print(f'Still processing ({duration/60:.1f} min: {record["DATA_SOURCE"]} : {record["RECORD_ID"]}')
       executor.shutdown()
       exit(-1)
