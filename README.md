@@ -28,5 +28,5 @@ docker run --user $UID -it -e SENZING_ENGINE_CONFIGURATION_JSON brian/sz_simple_
 ## Additional items to note
  * Will exit on non-data related exceptions after processing or failing to process the current records in flight
  * If a record takes more than 5min to process (LONG_RECORD), it will let you know which record it is and how long it has been processing
- * Does not use the senzing-###### format for log messages (unlike the senzing/redoer) and simply uses python `print` with strings.
+ * Does not use the senzing-###### format for log messages (unlike the senzing/redoer) and simply uses python `print` with strings.  It does use the standard senzing governor-postgresql-transaction-id module so you will see some messages using the standard format.
  * Does not support "WithInfo" output to queues but you can provide a "-i" command line option that will enable printing the WithInfo responses out.  It is simple enough to code in whatever you want done with WithInfo messages in your solution.
