@@ -18,12 +18,12 @@ from senzing import (
     G2Exception,
     G2EngineFlags,
     G2BadInputException,
-    G2RetryTimeoutExceeded,
+    #G2RetryTimeoutExceeded,
 )
 
 INTERVAL = 1000
 LONG_RECORD = os.getenv("LONG_RECORD", default=300)
-EMPTY_PAUSE_TIME = os.getenv("SENZING_REDO_SLEEP_TIME_IN_SECONDS", default=60)
+EMPTY_PAUSE_TIME = int(os.getenv("SENZING_REDO_SLEEP_TIME_IN_SECONDS", default=60))
 
 TUPLE_MSG = 0
 TUPLE_STARTTIME = 1
@@ -133,13 +133,13 @@ try:
                                     result
                                 )  # we would handle pushing to withinfo queues here BUT that is likely a second future task/executor
                         except G2BadInputException as err:
-                            if (
-                                err.code() == 7426
-                            ):  # log transliteration issue specially
-                                print(f"Transliteration failure: {msg[TUPLE_BODY]}")
+                            #if (
+                            #    err.code() == 7426
+                            #):  # log transliteration issue specially
+                            #    print(f"Transliteration failure: {msg[TUPLE_MSG]}")
                             pass
-                        except G2RetryTimeoutExceeded as err:
-                            print("Hit retry timeout")
+                        #except G2RetryTimeoutExceeded as err:
+                        #    print("Hit retry timeout")
 
                         messages += 1
 
