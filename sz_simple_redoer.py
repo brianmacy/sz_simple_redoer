@@ -16,9 +16,10 @@ import random
 from senzing import (
     G2Engine,
     G2Exception,
+    ExceptionCode,
     G2EngineFlags,
     G2BadInputException,
-    #G2RetryTimeoutExceeded,
+    G2RetryTimeoutExceeded,
 )
 
 INTERVAL = 1000
@@ -133,13 +134,13 @@ try:
                                     result
                                 )  # we would handle pushing to withinfo queues here BUT that is likely a second future task/executor
                         except G2BadInputException as err:
-                            #if (
-                            #    err.code() == 7426
-                            #):  # log transliteration issue specially
-                            #    print(f"Transliteration failure: {msg[TUPLE_MSG]}")
+                            if (
+                                ExceptionCode(err) == 7426
+                            ):  # log transliteration issue specially
+                                print(f"Transliteration failure: {msg[TUPLE_MSG]}")
                             pass
-                        #except G2RetryTimeoutExceeded as err:
-                        #    print("Hit retry timeout")
+                        except G2RetryTimeoutExceeded as err:
+                            print("Hit retry timeout")
 
                         messages += 1
 
