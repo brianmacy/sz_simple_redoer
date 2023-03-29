@@ -97,8 +97,8 @@ try:
     g2.init("sz_simple_redoer", engine_config, args.debugTrace)
     logCheckTime = prevTime = time.time()
 
-    senzing_governor = importlib.import_module("senzing_governor")
-    governor = senzing_governor.Governor(hint="sz_simple_redoer")
+    #senzing_governor = importlib.import_module("senzing_governor")
+    #governor = senzing_governor.Governor(hint="sz_simple_redoer")
 
     max_workers = int(os.getenv("SENZING_THREADS_PER_PROCESS", 0))
 
@@ -140,7 +140,7 @@ try:
                                 print(f"Transliteration failure: {msg[TUPLE_MSG]}")
                             pass
                         except G2RetryTimeoutExceeded as err:
-                            print("Hit retry timeout")
+                            print(f"Hit retry timeout: {msg[TUPLE_MSG]}")
 
                         messages += 1
 
@@ -179,7 +179,7 @@ try:
                                     f"All {executor._max_workers} threads are stuck on long running records"
                                 )
 
-                pauseSeconds = governor.govern()
+                pauseSeconds = 0.0 #governor.govern()
                 # either governor fully triggered or our executor is full
                 # not going to get more messages
                 if pauseSeconds < 0.0:
