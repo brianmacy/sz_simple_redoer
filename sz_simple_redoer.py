@@ -31,6 +31,15 @@ TUPLE_STARTTIME = 1
 
 log_format = "%(asctime)s %(message)s"
 
+def loggingID(rec):
+    dsrc = rec.get("DATA_SOURCE")
+    rec_id = rec.get("RECORD_ID")
+    if dsrc and rec_id:
+        return f'{dsrc} : {rec_id}'
+    umf_proc = rec.get("UMF_PROC") # repair messages
+    if umf_proc:
+        return f'{umf_proc[PARAMS][0][PARAM][VALUE]} : REPAIR_ENTITY'
+    return "UNKNOWN RECORD"
 
 def process_msg(engine, msg, info):
     try:
@@ -172,7 +181,7 @@ try:
                                     numStuck += 1
                                     record = orjson.loads(msg[TUPLE_MSG])
                                     print(
-                                        f'Long record ({duration/60:.1f} min): {record["DATA_SOURCE"]} : {record["RECORD_ID"]}'
+                                        f'Long record ({duration/60:.1f} min): {loggingID(record)}'
                                     )
                             if numStuck >= executor._max_workers:
                                 print(
@@ -231,7 +240,7 @@ try:
                     duration = nowTime - msg[TUPLE_STARTTIME]
                     record = orjson.loads(msg[TUPLE_MSG])
                     print(
-                        f'Still processing ({duration/60:.1f} min: {record["DATA_SOURCE"]} : {record["RECORD_ID"]}'
+                        f'Still processing ({duration/60:.1f} min: {loggingID(record)}'
                     )
             executor.shutdown()
             exit(-1)
