@@ -1,8 +1,10 @@
 # docker build -t brian/sz_simple_redoer .
 # docker run --user $UID -it -v $PWD:/data -e SENZING_ENGINE_CONFIGURATION_JSON brian/sz_simple_redoer
 
-ARG BASE_IMAGE=senzing/senzingapi-runtime:latest
+ARG BASE_IMAGE="senzing/senzingapi-runtime:latest"
 FROM ${BASE_IMAGE}
+ARG BASE_IMAGE
+RUN echo $BASE_IMAGE
 
 ENV REFRESHED_AT=2022-08-27
 
