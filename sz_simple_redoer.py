@@ -19,7 +19,7 @@ from senzing import (
     ExceptionCode,
     G2EngineFlags,
     G2BadInputException,
-    G2RetryTimeoutExceeded,
+    G2RetryTimeoutExceededException,
 )
 
 INTERVAL = 1000
@@ -148,7 +148,7 @@ try:
                             ):  # log transliteration issue specially
                                 print(f"Transliteration failure: {msg[TUPLE_MSG]}")
                             pass
-                        except G2RetryTimeoutExceeded as err:
+                        except G2RetryTimeoutExceededException as err:
                             print("Hit retry timeout")
 
                         messages += 1
